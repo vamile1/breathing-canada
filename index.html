@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Breathing_Canada</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta property="og:url" content="https://breathing-canada.netlify.app" />
+<meta property="og:image" content="https://breathing-canada.netlify.app/preview.png" />
+ <meta name="description" content="A visual representation of air quality across Canada from 2022 to 2024, exploring the impact of wildfires, geography, and seasonal patterns on what we breathe.">
+<meta name="author" content="Michelle Valente">
+<meta name="keywords" content="Canada, air quality, AQHI, wildfire, data visualization, environmental data, 2023 wildfires, NAPS">
+<meta name="theme-color" content="#07111c">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yourdomain.com/breathing-canada/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breathing Canada</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- BEFORE PANEL — click-to-continue black screen -->
+<div class="splash-overlay" id="splashOverlay">
+  <div class="splash-content">
+    <p class="splash-tip">Breathing Canada <br> For best experience, we recommend turning up the volume in the next section.</p>
+    <p class="splash-cta">Click to continue</p>
+  </div>
+</div>
+  <!-- AMBIENT MUSIC TOGGLE -->
+<button class="music-toggle" id="musicToggle" aria-label="Toggle ambient music" title="Play ambient music">
+  <svg class="music-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  <span class="music-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+</button>
+  
+<!-- SECTION NAVIGATION -->
+<nav class="section-nav" id="sectionNav" aria-label="Chapter navigation">
+  <a class="section-nav-item" href="#hero" data-label="Breathing Canada"></a>
+  <a class="section-nav-item" href="#s-aqifeel" data-label="The question"></a>
+  <a class="section-nav-item" href="#s-explainer" data-label="What is the AQI"></a>
+  <a class="section-nav-item" href="#s-wildfire" data-label="Summer 2023"></a>
+  <a class="section-nav-item" href="#s-slider" data-label="The spectrum"></a>
+  <a class="section-nav-item" href="#s-wind" data-label="The wind"></a>
+  <a class="section-nav-item" href="#s-threshold" data-label="Pressure"></a>
+  <a class="section-nav-item" href="#s-cityimpact" data-label="Geography"></a>
+  <a class="section-nav-item" href="#s-heattrap" data-label="Temperature"></a>
+  <a class="section-nav-item" href="#s-seasonal" data-label="Correlation"></a>
+  <a class="section-nav-item" href="#s-canadamap" data-label="Where it hurts"></a>
+  <a class="section-nav-item" href="#s-midnight" data-label="Night"></a>
+  <a class="section-nav-item" href="#crystalPage" data-label="The network"></a>
+  <a class="section-nav-item" href="#s-dawn" data-label="A new day"></a>
+</nav>
+  
+<!-- 1. HERO -->
+<section class="hero-screen" id="hero">
+  <canvas id="heroBg" aria-hidden="true"></canvas>
+  <div class="hero-content">
+    <div class="hero-label">Canada · Open Data · 2022–2024</div>
+    <h1 class="hero-title">Breathing<br>Canada</h1>
+    <p class="hero-sub">The air you breathe tells a story. <br> A visual-story made by Michelle Valente.</p>
+    <div class="scroll-hint"><div class="scroll-arrow"></div><span>scroll</span></div>
+  </div>
+</section>
+
+<!-- 2. AQHI FEEL -->
+<section class="aqi-feel-section" id="s-aqifeel">
+  <div class="aqi-feel-sticky">
+    <canvas id="aqiFeelCanvas" aria-hidden="true"></canvas>
+    <div class="aqi-feel-text" id="aqiFeelText">
+      <div class="chapter-label">Chapter 1 · The question</div>
+      <h2 class="fade-title">What does an elevated<br>AQHI feel like?</h2>
+    </div>
+    <div class="aqi-banner-reveal" id="aqiBannerReveal">
+      <div class="aqi-banner-grid">
+        <div class="aqi-banner-left">
+          <div class="chapter-label">The emergency</div>
+          <h3>A crisis that spreads</h3>
+          <p>When wildfire smoke blankets a city, emergency rooms overflow. A 2025 CMAJ peer-reviewed study found that asthma-related ED visits in Ontario spiked sharply during the June 2023 wildfire smoke episodes — with effects most pronounced among children and older adults.</p>
+          <p>Canada-wide, wildfire smoke PM2.5 is estimated to cause between <strong>660 and 5,400 premature deaths each year</strong> from chronic exposure (2019–2023).</p>
+        </div>
+        <div class="aqi-banner-right">
+          <div class="banner-label">Modeled asthma-related ED visits · Ontario · 2022–2024</div>
+          <div class="banner-wrap">
+            <canvas id="bannerChart" height="260" role="img" aria-label="ED visits chart"></canvas>
+          </div>
+          <div class="banner-note">Pattern based on CMAJ 197(17):E465 · Spike: June 2023 wildfire smoke episodes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. SCROLL TEXT EXPLAINER -->
+<section class="scroll-text-section" id="s-explainer">
+  <div class="steps-sticky" id="stepsSticky">
+    <div class="scroll-steps-wrap" id="scrollStepsWrap">
+      <div class="step-panel active" id="step-0">
+        <div class="chapter-label">What is the AQHI?</div>
+        <h3>A number that describes the air</h3>
+        <p>The Air Quality Health Index (AQHI) is Canada's national air quality scale, developed by Environment and Climate Change Canada in partnership with Health Canada. It combines three-hour averages of fine particulate matter (PM2.5), ground-level ozone (O₃), and nitrogen dioxide (NO₂) into a single value reflecting short-term health risk from breathing local ambient air.</p>
+      </div>
+      <div class="step-panel" id="step-1">
+        <div class="chapter-label">The scale</div>
+        <h3>From clean to catastrophic</h3>
+        <p>AQHI 1–3 is <strong>Low Risk</strong>: ideal for outdoor activity. 4–6 is <strong>Moderate Risk</strong>: at-risk groups should consider reducing exertion. 7–10 is <strong>High Risk</strong>: the general population should reschedule strenuous outdoor activity. Above 10 is <strong>Very High Risk</strong>: everyone should avoid outdoor exertion. During the 2023 wildfire season, several Canadian cities sustained AQHI readings of 10+ for days.</p>
+      </div>
+      <div class="step-panel" id="step-2">
+        <div class="chapter-label">The consequences</div>
+        <h3>What bad air does to a country</h3>
+        <p>Short-term exposure can trigger asthma attacks, irritate eyes and throat, and reduce lung function. A 2025 CMAJ study documented a significant spike in asthma-related ED visits across Ontario during the June 2023 wildfire smoke episodes. Long-term PM2.5 exposure is linked to cardiovascular disease, cognitive decline, and an estimated 660–5,400 premature deaths annually in Canada from wildfire smoke (2019–2023).</p>
+      </div>
+      <div class="step-panel" id="step-3">
+        <div class="chapter-label">What we found</div>
+        <h3>Three years of every breath</h3>
+        <p>This visualization models air quality patterns across Canada from 2022 to 2024 using methodology informed by Environment and Climate Change Canada's NAPS data. A portrait shaped by record-breaking wildfires — <strong>15 million hectares burned in 2023 alone</strong>, more than double the previous record — winter inversions, and urban traffic. Scroll to explore.</p>
+      </div>
+    </div>
+    <div class="step-progress"><div class="progress-bar" id="progressBar"></div></div>
+  </div>
+  <div class="scroll-spacer" aria-hidden="true"></div>
+</section>
+
+<!-- 5. WILDFIRE -->
+<section class="wildfire-section" id="s-wildfire">
+  <div class="wildfire-sticky" id="wildfireSticky">
+    <div class="wildfire-text-wrap">
+      <div class="wildfire-label reveal-fade" id="wfLabel">
+        <div class="chapter-label">Summer 2023</div>
+        <h2>The sky turned orange</h2>
+        <p>15 million hectares burned. 29 mega-fires. Over 200 communities evacuated. The most destructive wildfire season ever recorded in Canada. AQHI hit 10+ across multiple provinces for weeks.</p>
+      </div>
+    </div>
+    <canvas id="wildfireCanvas" aria-label="Animated leaves burning"></canvas>
+    <div class="wildfire-progress-wrap">
+      <div class="wildfire-progress-label" id="wfProgressLabel">Scroll to burn</div>
+      <div class="wildfire-progress-track"><div class="wildfire-progress-fill" id="wfProgressFill"></div></div>
+    </div>
+  </div>
+  <div class="scroll-spacer-long" aria-hidden="true"></div>
+</section>
+
+<!-- 6. SLIDER -->
+<section class="chart-section slider-section reveal-section" id="s-slider">
+  <canvas id="leafBgCanvas" aria-hidden="true"></canvas>
+  <div class="slider-bg-layer" id="sliderBgLayer"></div>
+  <div class="chart-content-z">
+    <div class="chart-header">
+      <div class="chapter-label">Chapter 1A · The spectrum</div>
+      <h2>Every day has a color</h2>
+      <p class="chart-sub">Drag the slider to move through the AQHI scale (1 = clean, 10+ = hazardous). Days near your value glow — others fade.</p>
+    </div>
+    <div class="aqi-readout">
+      <div class="aqi-value" id="aqiNum">3</div>
+      <div>
+        <div class="aqi-badge" id="aqiBadge">Low Risk</div>
+        <div class="aqi-desc" id="aqiDesc">Ideal air quality for outdoor activities.</div>
+      </div>
+    </div>
+    <div class="slider-container">
+      <div class="aqi-track"></div>
+      <input type="range" id="aqiSlider" min="1" max="11" value="3" step="1">
+      <div class="slider-labels"><span>1 — low</span><span>3</span><span>6</span><span>8</span><span>10</span><span>10+ — very high</span></div>
+    </div>
+    <div class="days-note">2022–2024 · each dot = 1 monitoring day</div>
+    <div class="days-grid" id="daysGrid"></div>
+  </div>
+</section>
+
+<!-- 7. WIND -->
+<section class="interlude-section wind-interlude reveal-section" id="s-wind">
+  <canvas id="windCanvas" aria-hidden="true"></canvas>
+  <div class="interlude-inner">
+    <div class="interlude-text">
+      <div class="chapter-label">Chapter 1B · The wind</div>
+      <h2>Wind doesn't clean —<br>it carries</h2>
+      <p>During the 2023 wildfire season, prevailing winds carried Canadian smoke across thousands of kilometers — into the northeastern United States, across the Atlantic, even reaching Europe. The atmosphere has no borders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. THRESHOLD BARS -->
+<section class="split-chart-section reveal-section" id="s-threshold">
+  <div class="split-chart-grid">
+    <div class="split-chart-copy">
+      <div class="chapter-label">Chapter 1C · Pressure</div>
+      <h2>Days above<br>threshold</h2>
+      <p>How often does AQHI exceed each health-risk threshold? Each step is a categorical jump in risk to the population — from comfortable to hazardous.</p>
+    </div>
+    <div class="split-chart-right" id="threshBars"></div>
+  </div>
+</section>
+
+<!-- 9. CITY IMPACT -->
+<section class="split-chart-section reveal-section" id="s-cityimpact">
+  <div class="split-chart-grid">
+    <div class="split-chart-copy">
+      <div class="chapter-label">Chapter 2 · Geography</div>
+      <h2>Which cities got<br>hit hardest?</h2>
+      <p>Average AQHI by city across 2022–2024. Cities heavily affected by wildfire smoke glow pink — others remain in blue.</p>
+    </div>
+    <div class="split-chart-right" id="cityBars"></div>
+  </div>
+</section>
+
+<div class="section-spacer" aria-hidden="true"></div>
+
+<!-- 10. HEAT TRAP -->
+<section class="heat-trap-section" id="s-heattrap">
+  <canvas id="heatTrapCanvas" aria-hidden="true"></canvas>
+  <div class="heat-trap-content" id="heatTrapContent">
+    <div class="chapter-label">Chapter 2B · Temperature</div>
+    <h2>Does heat trap pollution?</h2>
+    <p>Move your cursor to try and contain the particles. On warm days, temperature inversions can cap cities with a lid of hot air — trapping exhaust and wildfire smoke at ground level. In 2023, May–October temperatures across Canada averaged 2.2°C above the 1991–2020 norm.</p>
+    <div class="heat-trap-hint">Move your mouse to trap particles</div>
+  </div>
+</section>
+
+<!-- 11. SCATTER -->
+<section class="chart-section seasonal-section reveal-section" id="s-seasonal">
+  <div class="chart-header">
+    <div class="chapter-label">Chapter 2C · Correlation</div>
+    <h2>Temperature × air quality</h2>
+    <p class="chart-sub">Every modeled monitoring day plotted. See how temperature and AQHI interact across 3 years.</p>
+  </div>
+  <div class="scatter-wrap" id="scatterChart"></div>
+  <div class="seasonal-legend">
+    <span class="sleg"><span class="sleg__dot" style="background:#7fc5ff"></span>Normal</span>
+    <span class="sleg"><span class="sleg__dot" style="background:#ff9ecd"></span>Wildfire</span>
+    <span class="sleg"><span class="sleg__dot" style="background:#c4a8ff"></span>High Risk (AQHI &gt; 6)</span>
+  </div>
+</section>
+
+<!-- 12. CANADA MAP -->
+<section class="chart-section reveal-section" id="s-canadamap">
+  <div class="chart-header">
+    <div class="chapter-label">Chapter 2D · Geography</div>
+    <h2>Where the air hurts most</h2>
+    <p class="chart-sub">Each province colored by modeled average AQHI. Click for details.</p>
+  </div>
+  <div class="canada-map-wrap" id="canadaMap"></div>
+  <div class="heatmap-legend-row">
+    <span class="hm-leg-label">Low Risk</span>
+    <div class="hm-leg-gradient"></div>
+    <span class="hm-leg-label">Very High Risk</span>
+  </div>
+</section>
+
+<!-- 13. MIDNIGHT -->
+<section class="midnight-section" id="s-midnight">
+  <canvas id="midnightStars" aria-hidden="true"></canvas>
+  <div class="midnight-sticky" id="midnightSticky">
+    <div class="midnight-text" id="midnightText">
+      <div class="chapter-label">Chapter 3 · Night</div>
+      <h2 id="midTitle">What happens<br>after midnight?</h2>
+      <p id="midP1" class="mid-para">Traffic fades. Industry slows. The city exhales. But the air doesn't always follow.</p>
+      <p id="midP2" class="mid-para">At night, temperature inversions lock pollution at ground level. Particles linger for hours after sunset. The air you breathe in your sleep may be worse than what you breathed on your commute.</p>
+      <p id="midP3" class="mid-para">We don't notice because we're asleep — but our lungs don't rest.</p>
+    </div>
+  </div>
+  <div class="scroll-spacer-mid" aria-hidden="true"></div>
+</section>
+
+<!-- 14. CRYSTAL -->
+<section class="crystal-section reveal-section" id="crystalPage">
+  <canvas id="starsCanvas" aria-hidden="true"></canvas>
+  <div class="crystal-inner">
+    <div class="crystal__copy">
+      <div class="chapter-label">Chapter 3 · The network</div>
+      <h2>The season as a network</h2>
+      <p>Each node is a month or a notable event. Drag nodes to reorganise. Click for details.</p>
+      <div class="crystal__legend">
+        <span class="cleg"><span class="cleg__dot cleg__dot--ring" style="border-color:#c4a8ff"></span>Months</span>
+        <span class="cleg"><span class="cleg__dot" style="background:#7fc5ff"></span>Years</span>
+        <span class="cleg"><span class="cleg__dot cleg__dot--star" style="color:#ff9ecd">★</span>Wildfire peaks</span>
+      </div>
+    </div>
+    <div class="crystal-square">
+      <div id="crystalChart" class="crystal__chart"></div>
+      <div class="crystal-zoom-controls" aria-label="Zoom controls">
+        <button class="crystal-zoom-btn" id="crystalZoomIn" aria-label="Zoom in">+</button>
+        <button class="crystal-zoom-btn" id="crystalZoomOut" aria-label="Zoom out">−</button>
+      </div>
+    </div>
+  </div>
+  <div class="crystalTip" id="crystalTip"></div>
+</section>
+
+<!-- 15. DAWN -->
+<section class="dawn-section" id="s-dawn">
+  <canvas id="dawnCanvas" aria-hidden="true"></canvas>
+  <div class="dawn-sticky" id="dawnSticky">
+    <svg class="forest-scene" id="forestScene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="trunkGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1a0e06"/>
+          <stop offset=".5" stop-color="#3a220f"/>
+          <stop offset="1" stop-color="#120805"/>
+        </linearGradient>
+        <radialGradient id="pineDark" cx=".4" cy=".3" r=".95">
+          <stop offset="0" stop-color="#2e5a3a"/>
+          <stop offset=".6" stop-color="#17381f"/>
+          <stop offset="1" stop-color="#0a1d10"/>
+        </radialGradient>
+        <radialGradient id="pineMid" cx=".45" cy=".3" r=".9">
+          <stop offset="0" stop-color="#4e7f4a" stop-opacity=".95"/>
+          <stop offset=".7" stop-color="#2a5632" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#13311a" stop-opacity=".85"/>
+        </radialGradient>
+        <radialGradient id="pineLight" cx=".5" cy=".25" r=".85">
+          <stop offset="0" stop-color="#8fb878" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#3a6a42" stop-opacity=".3"/>
+        </radialGradient>
+        <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a4a2a" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#0a1810" stop-opacity=".95"/>
+        </linearGradient>
+        <radialGradient id="rayGrad" cx=".5" cy="0" r="1">
+          <stop offset="0" stop-color="#ffeec2" stop-opacity=".35"/>
+          <stop offset="1" stop-color="#ffeec2" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g id="distantHills"></g>
+      <g id="forestRays"></g>
+      <g id="forestTrees"></g>
+      <g id="forestGround"></g>
+    </svg>
+    <div class="dawn-text" id="dawnText">
+      <h2 id="dawnTitle">A new day begins</h2>
+      <p id="dawnP1" class="dawn-para">It's a new day. In 2026, we expect better — cleaner policy, greener energy grids, smarter air monitoring across every province.</p>
+      <p id="dawnP2" class="dawn-para">The data says we can do this. Every breath is a reason to act.</p>
+      <p id="dawnP3" class="dawn-para dawn-conclusion">The air is waiting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY & SOURCES -->
+<section class="methodology-section" id="s-methodology">
+  <div class="methodology-inner">
+    <div class="chapter-label">Methodology & Sources</div>
+    <h2>About this visualization</h2>
+    <p>This project uses the <strong>Air Quality Health Index (AQHI)</strong>, Canada's national air quality scale developed by Environment and Climate Change Canada in partnership with Health Canada. The AQHI is calculated from three-hour averages of ground-level ozone (O₃), nitrogen dioxide (NO₂), and fine particulate matter (PM2.5), and ranges from 1 (low health risk) to 10+ (very high risk).</p>
+    <p class="methodology-disclaimer"><strong>Important disclosure:</strong> The numerical values displayed in the visualizations are <strong>modeled</strong> to reflect documented patterns from Environment and Climate Change Canada's National Air Pollution Surveillance (NAPS) Program. All statistics quoted in the narrative text are drawn from peer-reviewed studies and official government sources, cited below.</p>
+    <h3>Key sources</h3>
+    <ul class="sources-list">
+      <li><strong>AQHI methodology:</strong> Environment and Climate Change Canada. <em>About the Air Quality Health Index.</em> <a href="https://www.canada.ca/en/environment-climate-change/services/air-quality-health-index/about.html" target="_blank" rel="noopener">canada.ca</a></li>
+      <li><strong>Air quality monitoring data:</strong> Environment and Climate Change Canada. <em>National Air Pollution Surveillance (NAPS) Program.</em> <a href="https://open.canada.ca/data/en/dataset/1b36a356-defd-4813-acea-47bc3abd859b" target="_blank" rel="noopener">open.canada.ca</a></li>
+      <li><strong>2023 wildfire statistics (15M hectares, 29 mega-fires, 200+ evacuations):</strong> Natural Resources Canada. <em>Canada's record-breaking wildfires in 2023: A fiery wake-up call.</em> <a href="https://natural-resources.canada.ca/stories/simply-science/canada-s-record-breaking-wildfires-2023-fiery-wake-call" target="_blank" rel="noopener">natural-resources.canada.ca</a></li>
+      <li><strong>Asthma & ED visits during 2023 wildfire smoke:</strong> "Impact of the 2023 wildfire smoke episodes in Ontario, Canada, on asthma and other health outcomes: an interrupted time-series analysis." <em>CMAJ</em> 2025;197(17):E465. <a href="https://www.cmaj.ca/content/197/17/E465" target="_blank" rel="noopener">cmaj.ca</a></li>
+      <li><strong>Wildfire-PM2.5 mortality (660–5,400 premature deaths/year):</strong> "Health Impact Analysis of Wildfire Smoke‐PM2.5 in Canada (2019–2023)." <em>GeoHealth</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12852501/" target="_blank" rel="noopener">PMC12852501</a></li>
+      <li><strong>2023 season drivers (2.2°C above norm):</strong> Jain P, et al. "Drivers and Impacts of the Record-Breaking 2023 Wildfire Season in Canada." <em>Nature Communications</em> 2024;15:6764. <a href="https://www.nature.com/articles/s41467-024-51154-7" target="_blank" rel="noopener">nature.com</a></li>
+      <li><strong>Wildfire smoke policy commentary:</strong> Henderson SB. "Wildfire smoke air pollution: new approaches needed to protect people affected." <em>CMAJ</em> 2025;197(17):E483. <a href="https://www.cmaj.ca/content/197/17/E483" target="_blank" rel="noopener">cmaj.ca</a></li>
+    </ul>
+    <h3>Limitations</h3>
+    <p>This is a conceptual data visualization, not a scientific publication. Numerical values in the interactive charts are generated procedurally to illustrate documented patterns, not measured directly from NAPS sensors. The narrative claims, however, are sourced from peer-reviewed and government publications as listed above. For research use, refer directly to the NAPS Data Portal.</p>
+    <h3>About this project</h3>
+    <p> This work was made by the student Michelle Valente under the supervision of Professor Antonio Belluscio, Academy of Fine Arts of Frosinone in the academic year 2025/2026. This work was purely made for academic purposes only. </p>
+       <button class="back-to-top" id="backToTop" aria-label="Back to top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      <span>Back to top</span>
+    </button>
+  </div>
+</section>
+<div id="tip"></div>
+</body>
+</html>
+    <script src='https://d3js.org/d3.v7.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'></script>
+<script src='https://unpkg.com/scrollamahttps://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js'></script><script  src="./script.js"></script>
+
+  </body>
+  
+</html>
